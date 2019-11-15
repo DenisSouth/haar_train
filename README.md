@@ -94,6 +94,8 @@ with open('negatives.txt', 'r+') as the_file:
 
 Тест каскада
 ```python
+import os
+from PIL import Image
 import cv2
 from IPython.display import display
 
@@ -102,22 +104,26 @@ def colab_imshow(frame):
         os.remove('temp.jpg')
 
     height, width = frame.shape[:2]
-    frame = cv2.resize(frame, (250, int((250 / width) * height)), interpolation=cv2.INTER_CUBIC)
+    frame = cv2.resize(frame, (500, int((500 / width) * height)), interpolation=cv2.INTER_CUBIC)
     cv2.imwrite('pic.jpg', frame)
     display(Image.open('pic.jpg'))
     os.remove('pic.jpg')
 
 haarCascade = cv2.CascadeClassifier('/content/classifier/cascade.xml')
-image = cv2.imread('/content/test.jpg')
+
+image = cv2.imread('/content/classifier/img11.jpg')
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-haar_feed = haarCascade.detectMultiScale(gray) 
-
-print("Found {0} pieces!".format(len(haar_feed)))
+haar_feed = haarCascade.detectMultiScale(
+        gray,
+        scaleFactor=1.3,
+        minNeighbors=3,
+        minSize=(1, 1),
+        maxSize=(50, 5)
+) 
 
 for (x, y, w, h) in haar_feed:
     cv2.rectangle(image, (x, y), (x+w, y+h), (0, 255, 0), 2)
-
 colab_imshow(image)
 ```
 
