@@ -90,6 +90,8 @@ with open('negatives.txt', 'r+') as the_file:
    -precalcIdxBufSize 1024
 ```
 
+В итоге, в каталоге classifier появится файл  cascade.xml
+
 Тест каскада
 ```python
 import cv2
@@ -105,7 +107,7 @@ def colab_imshow(frame):
     display(Image.open('pic.jpg'))
     os.remove('pic.jpg')
 
-haarCascade = cv2.CascadeClassifier('/content/classifier/stage0.xml')
+haarCascade = cv2.CascadeClassifier('/content/classifier/cascade.xml')
 image = cv2.imread('/content/test.jpg')
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
